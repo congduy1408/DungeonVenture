@@ -142,16 +142,47 @@ start the ritual. They are:
 				word_3,word_4 = get_random_word(fp_v, word_3, word_4)
 				name_format = "%s The %s %s"
 				fp_v.close()
-				boss_list[i - boss_num] = name_format % (word_1, word_2, word_3)
-				print "+ %s" % boss_list[i - boss_num]
+				boss_list[i - item_num] = name_format % (word_1, word_2, word_3)
+				print "+ %s" % boss_list[i - item_num]
 			else:
 				item_list[i] = name_format % (word_1, word_2)
 				print "+ %s" % item_list[i]
 				
 			fp.close()
 	elif 7 <= game_diff <= 10:
-		print "World in danger, you must kill a,b,c to save the world, but before that , you need d,e,f to fight them"
-		condition_number = random.randint(game_diff, game_diff + 2)
+		condition_number = random.randint(game_diff + 5, game_diff + 7)
+		boss_num = random.randint(2, condition_number)
+		item_num = condition_number - boss_num
+		print "condition: %d, item: %d, boss: %d" % (condition_number,item_num,boss_num)
+		name_format = "%s The %s %s"
+		word_1 = "aaa"
+		word_2 = "bbb"
+		word_3 = "ccc"
+		word_4 = "ddd"
+		print "In order to perform this ritual, you need to kill the demon that guard the seal to the ritual. It name is: "
+		for i in range(0,condition_number):
+			# open look up file
+			fp = open("noun")
+			word_1,word_2 = get_random_word(fp, word_1, word_2)
+
+			if i == boss_num:
+				print """\nHowever, this demon is very power full, normal weapon can not harm it. You need to seek 
+the sacred item so that you can weaken it. They are: 
+"""
+			if i > boss_num - 1:
+				name_format = "%s of %s"
+				item_list[i - boss_num] = name_format % (word_1, word_2)
+				print "+ %s" % item_list[i - boss_num]
+			else:
+				fp_v = open("verb")
+				word_3,word_4 = get_random_word(fp_v, word_3, word_4)
+				fp_v.close()
+				boss_list[i] = name_format % (word_1, word_2, word_3)
+				print "+ %s" % boss_list[i]
+				if i == 0:
+					print "And it is protected by other monster which you need to slay before hand. They are: "
+				
+			fp.close()
 	print "-"*100
 	return condition_number, item_list, boss_list
 	
